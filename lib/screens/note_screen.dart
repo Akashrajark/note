@@ -60,20 +60,21 @@ class _NoteScreenState extends State<NoteScreen> {
                   ),
                 ),
               ),
-              InkWell(
-                borderRadius: BorderRadius.circular(100),
-                onTap: () {
-                  NoteDb.instace.delNote(widget.note!.id);
-                  Navigator.pop(context);
-                },
-                child: const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Icon(
-                    Icons.delete,
-                    color: Colors.red,
+              if (widget.note != null)
+                InkWell(
+                  borderRadius: BorderRadius.circular(100),
+                  onTap: () {
+                    NoteDb.instace.delNote(widget.note!.id);
+                    Navigator.pop(context);
+                  },
+                  child: const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Icon(
+                      Icons.delete,
+                      color: Colors.red,
+                    ),
                   ),
                 ),
-              ),
             ],
           ),
           const SizedBox(
