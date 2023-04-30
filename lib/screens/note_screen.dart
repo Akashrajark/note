@@ -212,6 +212,7 @@ class _NoteScreenState extends State<NoteScreen> {
                   _titleController.text,
                   color.value,
                   isStared,
+                  DateTime.now(),
                 ),
               );
               Navigator.pop(context);

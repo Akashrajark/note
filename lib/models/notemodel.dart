@@ -8,11 +8,12 @@ class NoteModel {
   late String title, description;
   late int color;
   bool isStaredActive;
-  DateTime dateTime = DateTime.now();
+  DateTime dateTime;
   NoteModel(
     this.description,
     this.title,
     this.color,
     this.isStaredActive,
+    this.dateTime,
   );
 }

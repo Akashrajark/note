@@ -72,6 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       crossAxisCount: 2,
                     ),
                     itemBuilder: (context, index) => CustomNote(
+                      dateTime: snapshot.data![index].dateTime,
                       color: snapshot.data![index].color,
                       onEditTap: () {
                         Navigator.push(

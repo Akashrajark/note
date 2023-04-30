@@ -22,18 +22,23 @@ const NoteModelSchema = CollectionSchema(
       name: r'color',
       type: IsarType.long,
     ),
-    r'description': PropertySchema(
+    r'dateTime': PropertySchema(
       id: 1,
+      name: r'dateTime',
+      type: IsarType.dateTime,
+    ),
+    r'description': PropertySchema(
+      id: 2,
       name: r'description',
       type: IsarType.string,
     ),
     r'isStaredActive': PropertySchema(
-      id: 2,
+      id: 3,
       name: r'isStaredActive',
       type: IsarType.bool,
     ),
     r'title': PropertySchema(
-      id: 3,
+      id: 4,
       name: r'title',
       type: IsarType.string,
     )
@@ -70,9 +75,10 @@ void _noteModelSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeLong(offsets[0], object.color);
-  writer.writeString(offsets[1], object.description);
-  writer.writeBool(offsets[2], object.isStaredActive);
-  writer.writeString(offsets[3], object.title);
+  writer.writeDateTime(offsets[1], object.dateTime);
+  writer.writeString(offsets[2], object.description);
+  writer.writeBool(offsets[3], object.isStaredActive);
+  writer.writeString(offsets[4], object.title);
 }
 
 NoteModel _noteModelDeserialize(
@@ -82,10 +88,11 @@ NoteModel _noteModelDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = NoteModel(
-    reader.readString(offsets[1]),
-    reader.readString(offsets[3]),
+    reader.readString(offsets[2]),
+    reader.readString(offsets[4]),
     reader.readLong(offsets[0]),
-    reader.readBool(offsets[2]),
+    reader.readBool(offsets[3]),
+    reader.readDateTime(offsets[1]),
   );
   object.id = id;
   return object;
@@ -101,10 +108,12 @@ P _noteModelDeserializeProp<P>(
     case 0:
       return (reader.readLong(offset)) as P;
     case 1:
-      return (reader.readString(offset)) as P;
+      return (reader.readDateTime(offset)) as P;
     case 2:
-      return (reader.readBool(offset)) as P;
+      return (reader.readString(offset)) as P;
     case 3:
+      return (reader.readBool(offset)) as P;
+    case 4:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -247,6 +256,59 @@ extension NoteModelQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
         property: r'color',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<NoteModel, NoteModel, QAfterFilterCondition> dateTimeEqualTo(
+      DateTime value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'dateTime',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<NoteModel, NoteModel, QAfterFilterCondition> dateTimeGreaterThan(
+    DateTime value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'dateTime',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<NoteModel, NoteModel, QAfterFilterCondition> dateTimeLessThan(
+    DateTime value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'dateTime',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<NoteModel, NoteModel, QAfterFilterCondition> dateTimeBetween(
+    DateTime lower,
+    DateTime upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'dateTime',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
@@ -602,6 +664,18 @@ extension NoteModelQuerySortBy on QueryBuilder<NoteModel, NoteModel, QSortBy> {
     });
   }
 
+  QueryBuilder<NoteModel, NoteModel, QAfterSortBy> sortByDateTime() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'dateTime', Sort.asc);
+    });
+  }
+
+  QueryBuilder<NoteModel, NoteModel, QAfterSortBy> sortByDateTimeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'dateTime', Sort.desc);
+    });
+  }
+
   QueryBuilder<NoteModel, NoteModel, QAfterSortBy> sortByDescription() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'description', Sort.asc);
@@ -650,6 +724,18 @@ extension NoteModelQuerySortThenBy
   QueryBuilder<NoteModel, NoteModel, QAfterSortBy> thenByColorDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'color', Sort.desc);
+    });
+  }
+
+  QueryBuilder<NoteModel, NoteModel, QAfterSortBy> thenByDateTime() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'dateTime', Sort.asc);
+    });
+  }
+
+  QueryBuilder<NoteModel, NoteModel, QAfterSortBy> thenByDateTimeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'dateTime', Sort.desc);
     });
   }
 
@@ -710,6 +796,12 @@ extension NoteModelQueryWhereDistinct
     });
   }
 
+  QueryBuilder<NoteModel, NoteModel, QDistinct> distinctByDateTime() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'dateTime');
+    });
+  }
+
   QueryBuilder<NoteModel, NoteModel, QDistinct> distinctByDescription(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -742,6 +834,12 @@ extension NoteModelQueryProperty
   QueryBuilder<NoteModel, int, QQueryOperations> colorProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'color');
+    });
+  }
+
+  QueryBuilder<NoteModel, DateTime, QQueryOperations> dateTimeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'dateTime');
     });
   }
 

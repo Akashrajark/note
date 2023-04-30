@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class CustomNote extends StatelessWidget {
   final Function() onEditTap;
   final String title, description;
   final int color;
+  final DateTime dateTime;
   const CustomNote({
     super.key,
     required this.title,
     required this.description,
     required this.onEditTap,
     required this.color,
+    required this.dateTime,
   });
 
   @override
@@ -47,6 +50,14 @@ class CustomNote extends StatelessWidget {
               ),
               const Expanded(
                 child: SizedBox(),
+              ),
+              Text(
+                DateFormat.MMMEd().format(dateTime),
+                maxLines: 5,
+                overflow: TextOverflow.ellipsis,
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
               ),
             ],
           ),
