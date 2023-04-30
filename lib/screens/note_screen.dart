@@ -21,12 +21,14 @@ class _NoteScreenState extends State<NoteScreen> {
   final TextEditingController _bodyController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   Color color = const Color(0xFF8F43EE);
+  bool isStared = false;
   @override
   void initState() {
     if (widget.note != null) {
       _titleController.text = widget.note!.title;
       _bodyController.text = widget.note!.description;
       color = Color(widget.note!.color);
+      isStared = widget.note!.isStaredActive;
     }
     super.initState();
   }
@@ -44,6 +46,20 @@ class _NoteScreenState extends State<NoteScreen> {
         actions: [
           Row(
             children: [
+              InkWell(
+                borderRadius: BorderRadius.circular(100),
+                onTap: () {
+                  setState(() {});
+                  isStared = !isStared;
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Icon(
+                    isStared ? Icons.star : Icons.star_border_outlined,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
               InkWell(
                 borderRadius: BorderRadius.circular(100),
                 onTap: () {
@@ -194,6 +210,7 @@ class _NoteScreenState extends State<NoteScreen> {
                   _bodyController.text,
                   _titleController.text,
                   color.value,
+                  isStared,
                 ),
               );
               Navigator.pop(context);
@@ -201,6 +218,7 @@ class _NoteScreenState extends State<NoteScreen> {
               widget.note!.title = _titleController.text;
               widget.note!.description = _bodyController.text;
               widget.note!.color = color.value;
+              widget.note!.isStaredActive = isStared;
               NoteDb.instace.addNote(widget.note!);
               Navigator.pop(context);
             }

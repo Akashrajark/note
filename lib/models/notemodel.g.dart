@@ -27,8 +27,13 @@ const NoteModelSchema = CollectionSchema(
       name: r'description',
       type: IsarType.string,
     ),
-    r'title': PropertySchema(
+    r'isStaredActive': PropertySchema(
       id: 2,
+      name: r'isStaredActive',
+      type: IsarType.bool,
+    ),
+    r'title': PropertySchema(
+      id: 3,
       name: r'title',
       type: IsarType.string,
     )
@@ -66,7 +71,8 @@ void _noteModelSerialize(
 ) {
   writer.writeLong(offsets[0], object.color);
   writer.writeString(offsets[1], object.description);
-  writer.writeString(offsets[2], object.title);
+  writer.writeBool(offsets[2], object.isStaredActive);
+  writer.writeString(offsets[3], object.title);
 }
 
 NoteModel _noteModelDeserialize(
@@ -77,8 +83,9 @@ NoteModel _noteModelDeserialize(
 ) {
   final object = NoteModel(
     reader.readString(offsets[1]),
-    reader.readString(offsets[2]),
+    reader.readString(offsets[3]),
     reader.readLong(offsets[0]),
+    reader.readBool(offsets[2]),
   );
   object.id = id;
   return object;
@@ -96,6 +103,8 @@ P _noteModelDeserializeProp<P>(
     case 1:
       return (reader.readString(offset)) as P;
     case 2:
+      return (reader.readBool(offset)) as P;
+    case 3:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -433,6 +442,16 @@ extension NoteModelQueryFilter
     });
   }
 
+  QueryBuilder<NoteModel, NoteModel, QAfterFilterCondition>
+      isStaredActiveEqualTo(bool value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'isStaredActive',
+        value: value,
+      ));
+    });
+  }
+
   QueryBuilder<NoteModel, NoteModel, QAfterFilterCondition> titleEqualTo(
     String value, {
     bool caseSensitive = true,
@@ -595,6 +614,18 @@ extension NoteModelQuerySortBy on QueryBuilder<NoteModel, NoteModel, QSortBy> {
     });
   }
 
+  QueryBuilder<NoteModel, NoteModel, QAfterSortBy> sortByIsStaredActive() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isStaredActive', Sort.asc);
+    });
+  }
+
+  QueryBuilder<NoteModel, NoteModel, QAfterSortBy> sortByIsStaredActiveDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isStaredActive', Sort.desc);
+    });
+  }
+
   QueryBuilder<NoteModel, NoteModel, QAfterSortBy> sortByTitle() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'title', Sort.asc);
@@ -646,6 +677,18 @@ extension NoteModelQuerySortThenBy
     });
   }
 
+  QueryBuilder<NoteModel, NoteModel, QAfterSortBy> thenByIsStaredActive() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isStaredActive', Sort.asc);
+    });
+  }
+
+  QueryBuilder<NoteModel, NoteModel, QAfterSortBy> thenByIsStaredActiveDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isStaredActive', Sort.desc);
+    });
+  }
+
   QueryBuilder<NoteModel, NoteModel, QAfterSortBy> thenByTitle() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'title', Sort.asc);
@@ -674,6 +717,12 @@ extension NoteModelQueryWhereDistinct
     });
   }
 
+  QueryBuilder<NoteModel, NoteModel, QDistinct> distinctByIsStaredActive() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'isStaredActive');
+    });
+  }
+
   QueryBuilder<NoteModel, NoteModel, QDistinct> distinctByTitle(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -699,6 +748,12 @@ extension NoteModelQueryProperty
   QueryBuilder<NoteModel, String, QQueryOperations> descriptionProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'description');
+    });
+  }
+
+  QueryBuilder<NoteModel, bool, QQueryOperations> isStaredActiveProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'isStaredActive');
     });
   }
 

@@ -4,9 +4,15 @@ import 'package:testbloc/screens/note_screen.dart';
 
 import '../widget/custom_new_note.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  bool isActive = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,11 +26,34 @@ class HomeScreen extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
         ),
+        actions: [
+          Row(
+            children: [
+              InkWell(
+                borderRadius: BorderRadius.circular(100),
+                onTap: () {
+                  setState(() {});
+                  isActive = !isActive;
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child:
+                      Icon(isActive ? Icons.star : Icons.star_border_outlined),
+                ),
+              ),
+              const SizedBox(
+                width: 10,
+              ),
+            ],
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: StreamBuilder(
-          stream: NoteDb.instace.getNote(),
+          stream: isActive
+              ? NoteDb.instace.getStaredNote()
+              : NoteDb.instace.getNote(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.active ||
                 snapshot.connectionState == ConnectionState.done) {
@@ -71,7 +100,7 @@ class HomeScreen extends StatelessWidget {
                 );
               }
             } else {
-              return const CircularProgressIndicator();
+              return const Center(child: CircularProgressIndicator());
             }
           },
         ),

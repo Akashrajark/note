@@ -28,6 +28,13 @@ class NoteDb {
     return noteDB!.noteModels.where().watch(fireImmediately: true);
   }
 
+  Stream<List<NoteModel>> getStaredNote() {
+    return noteDB!.noteModels
+        .filter()
+        .isStaredActiveEqualTo(true)
+        .watch(fireImmediately: true);
+  }
+
   Future<void> delNote(Id id) async {
     await noteDB!.writeTxn(
       () async {
