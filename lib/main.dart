@@ -13,7 +13,7 @@ void main() async {
         inputDecorationTheme: InputDecorationTheme(
           contentPadding: const EdgeInsets.all(0),
           filled: true,
-          fillColor: Colors.white,
+          fillColor: Colors.white.withOpacity(0),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(0),
             borderSide: BorderSide.none,

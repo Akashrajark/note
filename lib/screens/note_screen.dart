@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:testbloc/db/notedb.dart';
 import 'package:testbloc/models/notemodel.dart';
+import 'package:testbloc/screens/homescreen.dart';
 import 'package:testbloc/widget/colorbox.dart';
 
 import '../widget/custome_button.dart';
@@ -36,13 +37,13 @@ class _NoteScreenState extends State<NoteScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: color,
       appBar: AppBar(
         iconTheme: const IconThemeData(
           color: Colors.black,
         ),
         elevation: 0,
-        backgroundColor: Colors.white,
+        backgroundColor: color,
         actions: [
           Row(
             children: [
@@ -63,10 +64,37 @@ class _NoteScreenState extends State<NoteScreen> {
               if (widget.note != null)
                 InkWell(
                   borderRadius: BorderRadius.circular(100),
-                  onTap: () {
-                    NoteDb.instace.delNote(widget.note!.id);
-                    Navigator.pop(context);
-                  },
+                  onTap: () => showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: const Text(
+                        "Are you sure?",
+                        textAlign: TextAlign.start,
+                      ),
+                      actionsAlignment: MainAxisAlignment.spaceBetween,
+                      actions: [
+                        CustomButton(
+                          buttonType: ButtonType.secondary,
+                          text: "no",
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                        CustomButton(
+                          text: "Yes",
+                          onTap: () {
+                            NoteDb.instace.delNote(widget.note!.id);
+                            Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const HomeScreen()),
+                              (route) => false,
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
                   child: const Padding(
                     padding: EdgeInsets.all(8.0),
                     child: Icon(
@@ -203,6 +231,7 @@ class _NoteScreenState extends State<NoteScreen> {
         ),
       ),
       floatingActionButton: CustomButton(
+        text: "Done",
         onTap: () {
           if (_formKey.currentState!.validate()) {
             if (widget.note == null) {
