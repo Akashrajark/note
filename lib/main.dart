@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:testbloc/db/notedb.dart';
-import 'package:testbloc/screens/homescreen.dart';
+import 'package:testbloc/screens/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,7 +21,7 @@ void main() async {
         ),
       ),
       debugShowCheckedModeBanner: false,
-      home: const HomeScreen(),
+      home: const SplashScreen(),
     ),
   );
 }
