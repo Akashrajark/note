@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:testbloc/db/notedb.dart';
 import 'package:testbloc/screens/note_screen.dart';
 
@@ -21,11 +22,11 @@ class _HomeScreenState extends State<HomeScreen> {
         automaticallyImplyLeading: false,
         backgroundColor: Colors.black,
         title: Text(
-          "Notes",
-          style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                color: Colors.white60,
-                fontWeight: FontWeight.bold,
-              ),
+          "Scribbly",
+          style: GoogleFonts.pacifico(
+            color: Colors.white,
+            textStyle: Theme.of(context).textTheme.headlineSmall,
+          ),
         ),
         actions: [
           Row(
