@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:testbloc/screens/homescreen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -19,7 +20,7 @@ class _SplashScreenState extends State<SplashScreen> {
         MaterialPageRoute(
           builder: (context) => const HomeScreen(),
         ),
-        (route) => true,
+        (route) => false,
       );
     });
     super.initState();
@@ -31,10 +32,11 @@ class _SplashScreenState extends State<SplashScreen> {
       backgroundColor: Colors.black,
       body: Center(
         child: Text(
-          "NoteLet",
-          style: Theme.of(context).textTheme.headlineLarge!.copyWith(
-                color: Colors.white,
-              ),
+          "Scribbly",
+          style: GoogleFonts.pacifico(
+            color: Colors.white,
+            textStyle: Theme.of(context).textTheme.headlineLarge,
+          ),
         ),
       ),
     );
