@@ -33,20 +33,15 @@ class CustomNote extends StatelessWidget {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w500,
                     ),
               ),
-              const Divider(
-                thickness: 2,
-                color: Colors.black,
-              ),
+              const Divider(),
               Text(
                 description,
                 maxLines: 5,
                 overflow: TextOverflow.ellipsis,
-                style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(),
               ),
               const Expanded(
                 child: SizedBox(),
@@ -55,9 +50,7 @@ class CustomNote extends StatelessWidget {
                 DateFormat.MMMEd().format(dateTime),
                 maxLines: 5,
                 overflow: TextOverflow.ellipsis,
-                style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
+                style: Theme.of(context).textTheme.bodyLarge!.copyWith(),
               ),
             ],
           ),

@@ -170,23 +170,23 @@ class _NoteScreenState extends State<NoteScreen> {
                 runSpacing: 5,
                 children: [
                   ColorBox(
-                    color: const Color(0xFF8F43EE),
+                    color: const Color(0xFFF1F6F9),
                     onTap: () {
                       setState(
                         () {
-                          color = const Color(0xFF8F43EE);
+                          color = const Color(0xFFF1F6F9);
                         },
                       );
                     },
-                    isActive: color == const Color(0xFF8F43EE),
+                    isActive: color == const Color(0xFFF1F6F9),
                   ),
                   ColorBox(
-                    color: const Color(0xFFEB7A53),
-                    isActive: color == const Color(0xFFEB7A53),
+                    color: const Color(0xFFFFB4B4),
+                    isActive: color == const Color(0xFFFFB4B4),
                     onTap: () {
                       setState(
                         () {
-                          color = const Color(0xFFEB7A53);
+                          color = const Color(0xFFFFB4B4);
                         },
                       );
                     },
@@ -224,8 +224,30 @@ class _NoteScreenState extends State<NoteScreen> {
                       );
                     },
                   ),
+                  ColorBox(
+                    color: const Color(0xFFFFBC97),
+                    isActive: color == const Color(0xFFFFBC97),
+                    onTap: () {
+                      setState(
+                        () {
+                          color = const Color(0xFFFFBC97);
+                        },
+                      );
+                    },
+                  ),
+                  ColorBox(
+                    color: const Color(0xFF716F81),
+                    isActive: color == const Color(0xFF716F81),
+                    onTap: () {
+                      setState(
+                        () {
+                          color = const Color(0xFF716F81);
+                        },
+                      );
+                    },
+                  ),
                 ],
-              )
+              ),
             ],
           ),
         ),
