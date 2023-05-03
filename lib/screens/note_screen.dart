@@ -21,7 +21,7 @@ class _NoteScreenState extends State<NoteScreen> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _bodyController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  Color color = const Color(0xFF8F43EE);
+  Color color = const Color(0xFFF1F6F9);
   bool isStared = false;
   @override
   void initState() {
@@ -113,143 +113,141 @@ class _NoteScreenState extends State<NoteScreen> {
       body: Form(
         autovalidateMode: AutovalidateMode.onUserInteraction,
         key: _formKey,
-        child: Padding(
+        child: ListView(
+          physics: const BouncingScrollPhysics(),
           padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: ListView(
-            children: [
-              TextFormField(
-                textInputAction: TextInputAction.next,
-                onEditingComplete: () => FocusScope.of(context).nextFocus(),
-                autofocus: true,
-                maxLines: null,
-                validator: (value) {
-                  if (value == null || value.trim().isEmpty) {
-                    return 'enter title';
-                  }
-                  return null;
-                },
-                controller: _titleController,
-                style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                      color: Colors.black,
+          children: [
+            TextFormField(
+              textInputAction: TextInputAction.next,
+              onEditingComplete: () => FocusScope.of(context).nextFocus(),
+              autofocus: true,
+              maxLines: null,
+              validator: (value) {
+                if (value == null || value.trim().isEmpty) {
+                  return 'enter title';
+                }
+                return null;
+              },
+              controller: _titleController,
+              style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+                    color: Colors.black,
+                  ),
+              decoration: InputDecoration(
+                hintText: "Title",
+                hintStyle: Theme.of(context).textTheme.headlineMedium!.copyWith(
+                      color: Colors.grey,
                     ),
-                decoration: InputDecoration(
-                  hintText: "Title",
-                  hintStyle:
-                      Theme.of(context).textTheme.headlineMedium!.copyWith(
-                            color: Colors.grey,
-                          ),
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            TextFormField(
+              textInputAction: TextInputAction.done,
+              onEditingComplete: () => FocusScope.of(context).unfocus(),
+              style: Theme.of(context).textTheme.titleLarge,
+              validator: (value) {
+                if (value == null || value.trim().isEmpty) {
+                  return 'enter text';
+                }
+                return null;
+              },
+              controller: _bodyController,
+              maxLines: null,
+              decoration: InputDecoration(
+                hintStyle: Theme.of(context).textTheme.titleLarge!.copyWith(
+                      color: Colors.grey,
+                    ),
+                hintText: "Type something..",
+              ),
+            ),
+            const SizedBox(
+              height: 50,
+            ),
+            Wrap(
+              spacing: 5,
+              runSpacing: 5,
+              children: [
+                ColorBox(
+                  color: const Color(0xFFF1F6F9),
+                  onTap: () {
+                    setState(
+                      () {
+                        color = const Color(0xFFF1F6F9);
+                      },
+                    );
+                  },
+                  isActive: color == const Color(0xFFF1F6F9),
                 ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              TextFormField(
-                textInputAction: TextInputAction.done,
-                onEditingComplete: () => FocusScope.of(context).unfocus(),
-                style: Theme.of(context).textTheme.titleLarge,
-                validator: (value) {
-                  if (value == null || value.trim().isEmpty) {
-                    return 'enter text';
-                  }
-                  return null;
-                },
-                controller: _bodyController,
-                maxLines: null,
-                decoration: InputDecoration(
-                  hintStyle: Theme.of(context).textTheme.titleLarge!.copyWith(
-                        color: Colors.grey,
-                      ),
-                  hintText: "Type something..",
+                ColorBox(
+                  color: const Color(0xFFFFB4B4),
+                  isActive: color == const Color(0xFFFFB4B4),
+                  onTap: () {
+                    setState(
+                      () {
+                        color = const Color(0xFFFFB4B4);
+                      },
+                    );
+                  },
                 ),
-              ),
-              const SizedBox(
-                height: 50,
-              ),
-              Wrap(
-                spacing: 5,
-                runSpacing: 5,
-                children: [
-                  ColorBox(
-                    color: const Color(0xFFF1F6F9),
-                    onTap: () {
-                      setState(
-                        () {
-                          color = const Color(0xFFF1F6F9);
-                        },
-                      );
-                    },
-                    isActive: color == const Color(0xFFF1F6F9),
-                  ),
-                  ColorBox(
-                    color: const Color(0xFFFFB4B4),
-                    isActive: color == const Color(0xFFFFB4B4),
-                    onTap: () {
-                      setState(
-                        () {
-                          color = const Color(0xFFFFB4B4);
-                        },
-                      );
-                    },
-                  ),
-                  ColorBox(
-                    color: const Color(0xFF98B7DB),
-                    isActive: color == const Color(0xFF98B7DB),
-                    onTap: () {
-                      setState(
-                        () {
-                          color = const Color(0xFF98B7DB);
-                        },
-                      );
-                    },
-                  ),
-                  ColorBox(
-                    color: const Color(0xFFA8D672),
-                    isActive: color == const Color(0xFFA8D672),
-                    onTap: () {
-                      setState(
-                        () {
-                          color = const Color(0xFFA8D672);
-                        },
-                      );
-                    },
-                  ),
-                  ColorBox(
-                    color: const Color(0xFFF6ECC9),
-                    isActive: color == const Color(0xFFF6ECC9),
-                    onTap: () {
-                      setState(
-                        () {
-                          color = const Color(0xFFF6ECC9);
-                        },
-                      );
-                    },
-                  ),
-                  ColorBox(
-                    color: const Color(0xFFFFBC97),
-                    isActive: color == const Color(0xFFFFBC97),
-                    onTap: () {
-                      setState(
-                        () {
-                          color = const Color(0xFFFFBC97);
-                        },
-                      );
-                    },
-                  ),
-                  ColorBox(
-                    color: const Color(0xFF716F81),
-                    isActive: color == const Color(0xFF716F81),
-                    onTap: () {
-                      setState(
-                        () {
-                          color = const Color(0xFF716F81);
-                        },
-                      );
-                    },
-                  ),
-                ],
-              ),
-            ],
-          ),
+                ColorBox(
+                  color: const Color(0xFF98B7DB),
+                  isActive: color == const Color(0xFF98B7DB),
+                  onTap: () {
+                    setState(
+                      () {
+                        color = const Color(0xFF98B7DB);
+                      },
+                    );
+                  },
+                ),
+                ColorBox(
+                  color: const Color(0xFFA8D672),
+                  isActive: color == const Color(0xFFA8D672),
+                  onTap: () {
+                    setState(
+                      () {
+                        color = const Color(0xFFA8D672);
+                      },
+                    );
+                  },
+                ),
+                ColorBox(
+                  color: const Color(0xFFF6ECC9),
+                  isActive: color == const Color(0xFFF6ECC9),
+                  onTap: () {
+                    setState(
+                      () {
+                        color = const Color(0xFFF6ECC9);
+                      },
+                    );
+                  },
+                ),
+                ColorBox(
+                  color: const Color(0xFFFFBC97),
+                  isActive: color == const Color(0xFFFFBC97),
+                  onTap: () {
+                    setState(
+                      () {
+                        color = const Color(0xFFFFBC97);
+                      },
+                    );
+                  },
+                ),
+                ColorBox(
+                  color: const Color(0xFF716F81),
+                  isActive: color == const Color(0xFF716F81),
+                  onTap: () {
+                    setState(
+                      () {
+                        color = const Color(0xFF716F81);
+                      },
+                    );
+                  },
+                ),
+              ],
+            ),
+          ],
         ),
       ),
       floatingActionButton: CustomButton(

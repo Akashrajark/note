@@ -18,9 +18,10 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.black.withOpacity(.8),
         title: Text(
           "Scribbly",
           style: GoogleFonts.pacifico(
@@ -50,63 +51,62 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: StreamBuilder(
-          stream: isActive
-              ? NoteDb.instace.getStaredNote()
-              : NoteDb.instace.getNote(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.active ||
-                snapshot.connectionState == ConnectionState.done) {
-              if (snapshot.hasData &&
-                  snapshot.data != null &&
-                  snapshot.data!.isNotEmpty) {
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: GridView.builder(
-                    shrinkWrap: true,
-                    itemCount: snapshot.data!.length,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      mainAxisSpacing: 10,
-                      crossAxisSpacing: 10,
-                      crossAxisCount: 2,
-                    ),
-                    itemBuilder: (context, index) => CustomNote(
-                      dateTime: snapshot.data![index].dateTime,
-                      color: snapshot.data![index].color,
-                      onEditTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => NoteScreen(
-                              note: snapshot.data![index],
-                            ),
-                          ),
-                        );
-                      },
-                      title: snapshot.data![index].title,
-                      description: snapshot.data![index].description,
-                    ),
-                  ),
-                );
-              } else {
-                return Center(
-                  child: Text(
-                    "No Data",
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyLarge!
-                        .copyWith(color: Colors.white),
-                  ),
-                );
-              }
+      body: StreamBuilder(
+        stream: isActive
+            ? NoteDb.instace.getStaredNote()
+            : NoteDb.instace.getNote(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.active ||
+              snapshot.connectionState == ConnectionState.done) {
+            if (snapshot.hasData &&
+                snapshot.data != null &&
+                snapshot.data!.isNotEmpty) {
+              return GridView.builder(
+                physics: const BouncingScrollPhysics(),
+                shrinkWrap: true,
+                padding: const EdgeInsets.symmetric(
+                  vertical: 90,
+                  horizontal: 10,
+                ),
+                itemCount: snapshot.data!.length,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  mainAxisSpacing: 10,
+                  crossAxisSpacing: 10,
+                  crossAxisCount:
+                      MediaQuery.of(context).size.width > 400 ? 3 : 2,
+                ),
+                itemBuilder: (context, index) => CustomNote(
+                  dateTime: snapshot.data![index].dateTime,
+                  color: snapshot.data![index].color,
+                  onEditTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => NoteScreen(
+                          note: snapshot.data![index],
+                        ),
+                      ),
+                    );
+                  },
+                  title: snapshot.data![index].title,
+                  description: snapshot.data![index].description,
+                ),
+              );
             } else {
-              return const Center(child: CircularProgressIndicator());
+              return Center(
+                child: Text(
+                  "No Data",
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyLarge!
+                      .copyWith(color: Colors.white),
+                ),
+              );
             }
-          },
-        ),
+          } else {
+            return const Center(child: CircularProgressIndicator());
+          }
+        },
       ),
       floatingActionButton: Material(
         color: Colors.white,
